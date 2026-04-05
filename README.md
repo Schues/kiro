@@ -4,6 +4,17 @@
 
 ---
 
+## ダウンロード
+
+| OS | ダウンロード |
+|----|------------|
+| macOS 12 以降 | [kiro_mac_v1.2.zip](https://github.com/Schues/kiro/releases/download/v1.2/kiro_mac_v1.2.zip) |
+| Windows 10 / 11 | [kiro_win_v1.2.zip](https://github.com/Schues/kiro/releases/download/v1.2/kiro_win_v1.2.zip) |
+
+> すべてのリリース一覧は [Releases ページ](https://github.com/Schues/kiro/releases) から確認できます。
+
+---
+
 ## 動作環境
 
 | OS | 配布ファイル |
