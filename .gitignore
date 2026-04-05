@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Runtime / local app data
+move_log.csv
+kiro.lock
+
+# macOS
+.DS_Store
+
+# Editor (optional local overrides)
+# .vscode/settings.local.json
