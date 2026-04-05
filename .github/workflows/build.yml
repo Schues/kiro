@@ -1,0 +1,105 @@
+name: Build kiro
+
+on:
+  push:
+    tags:
+      - "v*"          # v1.2 などのタグをpushしたときに自動ビルド
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 依存インストール
+        run: pip install -r requirements.txt
+
+      - name: ビルド（Mac）
+        run: |
+          pyinstaller \
+            --windowed \
+            --name kiro \
+            --distpath dist \
+            --workpath .pyinstaller_work \
+            --noconfirm \
+            --add-data "src:src" \
+            main.py
+
+      - name: zip 作成（Mac）
+        run: |
+          mkdir -p dist/_stage
+          cp -r dist/kiro.app dist/_stage/
+          cp README.md dist/_stage/
+          cd dist/_stage && zip -r ../../kiro_mac_${{ github.ref_name }}.zip .
+
+      - name: アップロード（Mac）
+        uses: actions/upload-artifact@v4
+        with:
+          name: kiro-mac
+          path: kiro_mac_${{ github.ref_name }}.zip
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 依存インストール
+        run: pip install -r requirements.txt
+
+      - name: ビルド（Windows）
+        run: |
+          pyinstaller `
+            --noconsole `
+            --onefile `
+            --name kiro `
+            --distpath dist `
+            --workpath .pyinstaller_work `
+            --noconfirm `
+            --add-data "src;src" `
+            main.py
+
+      - name: zip 作成（Windows）
+        run: |
+          New-Item -ItemType Directory -Path dist\_stage
+          Copy-Item dist\kiro.exe dist\_stage\
+          Copy-Item README.md dist\_stage\
+          Compress-Archive -Path dist\_stage\* -DestinationPath kiro_win_${{ github.ref_name }}.zip
+
+      - name: アップロード（Windows）
+        uses: actions/upload-artifact@v4
+        with:
+          name: kiro-windows
+          path: kiro_win_${{ github.ref_name }}.zip
+
+  release:
+    needs: [build-mac, build-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Mac zip ダウンロード
+        uses: actions/download-artifact@v4
+        with:
+          name: kiro-mac
+
+      - name: Windows zip ダウンロード
+        uses: actions/download-artifact@v4
+        with:
+          name: kiro-windows
+
+      - name: GitHub Release 作成
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            kiro_mac_${{ github.ref_name }}.zip
+            kiro_win_${{ github.ref_name }}.zip
