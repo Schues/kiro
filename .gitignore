@@ -15,5 +15,14 @@ kiro.lock
 # macOS
 .DS_Store
 
+# PyInstaller 成果物
+dist/
+.pyinstaller_work/
+*.spec
+kiro_*.zip
+
+# VSCode
+.vscode/
+
 # Editor (optional local overrides)
 # .vscode/settings.local.json

@@ -1,7 +1,12 @@
 import os
+import sys
 import json
 
-_BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# PyInstaller でパッケージ化された場合は exe/app の隣にデータを置く
+if getattr(sys, "frozen", False):
+    _BASE_DIR = os.path.dirname(sys.executable)
+else:
+    _BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # プロジェクト設定ファイル
 PROJECTS_FILE = os.path.join(_BASE_DIR, "projects.json")

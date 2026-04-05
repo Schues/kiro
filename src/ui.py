@@ -78,7 +78,7 @@ class FileDispatchDialog:
             text="振り分ける",
             width=14,
             bg="#4A90D9",
-            fg="white",
+            fg="black",
             font=("Helvetica", 11),
             command=self._on_move,
         ).pack(side="left", padx=6)
