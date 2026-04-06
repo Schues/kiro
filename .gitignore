@@ -11,6 +11,8 @@ __pycache__/
 # Runtime / local app data
 move_log.csv
 kiro.lock
+projects.json
+settings.json
 
 # macOS
 .DS_Store

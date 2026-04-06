@@ -185,12 +185,18 @@ move_log.csv          操作ログ（自動生成）
 
 ---
 
+## ライセンス
+
+[MIT License](LICENSE) © 2025 schue production
+
+---
+
 ## クレジット
 
 Created by schue production
 
 使用ライブラリ：
-- [watchdog](https://github.com/gorakhargosh/watchdog)
-- [pystray](https://github.com/moses-palmer/pystray)
-- [Pillow](https://python-pillow.org)
-- tkinter（Python 標準ライブラリ）
+- [watchdog](https://github.com/gorakhargosh/watchdog) — MIT License
+- [pystray](https://github.com/moses-palmer/pystray) — LGPL-3.0
+- [Pillow](https://python-pillow.org) — HPND License
+- tkinter（Python 標準ライブラリ）— PSF License
