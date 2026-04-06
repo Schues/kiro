@@ -8,10 +8,14 @@
 
 | OS | ダウンロード |
 |----|------------|
-| macOS 12 以降 | [kiro_mac_v1.2.zip](https://github.com/Schues/kiro/releases/download/v1.2/kiro_mac_v1.2.zip) |
 | Windows 10 / 11 | [kiro_win_v1.2.zip](https://github.com/Schues/kiro/releases/download/v1.2/kiro_win_v1.2.zip) |
+| macOS | **配布停止中**（下記参照） |
 
 > すべてのリリース一覧は [Releases ページ](https://github.com/Schues/kiro/releases) から確認できます。
+
+> **macOS 版について**  
+> macOS は署名・公証（notarization）のないアプリを Gatekeeper が強制削除するため、現時点では配布を停止しています。  
+> ソースコードは公開していますので、自前でビルドして使用することは可能です（後述）。
 
 ---
 
@@ -19,20 +23,45 @@
 
 | OS | 配布ファイル |
 |----|------------|
-| macOS 12 以降 | `kiro.app` |
 | Windows 10 / 11 | `kiro.exe` |
+| macOS | 配布停止中 |
 
 ---
 
 ## インストール
 
-### Mac
+### Mac（配布停止中 — Python で直接実行する）
 
-1. `kiro.app` をダウンロードする
-2. `アプリケーション` フォルダへドラッグ＆ドロップする
-3. 初回起動時に「開発元を確認できません」と表示された場合：
-   - `kiro.app` を **右クリック → 開く** → 「開く」ボタンをクリック
-   - 2回目以降はダブルクリックで起動できます
+macOS 版は署名・公証の問題により配布を停止しています。  
+代わりに、Python で直接実行してください（署名は不要で、動作に違いはありません）。
+
+```bash
+# 1. リポジトリをクローン
+git clone https://github.com/Schues/kiro.git
+cd kiro
+
+# 2. 仮想環境を作成して依存をインストール
+python3 -m venv .venv
+source .venv/bin/activate
+pip install watchdog pystray Pillow psutil
+
+# 3. 起動
+python main.py
+```
+
+**2回目以降の起動：**
+
+```bash
+cd kiro
+source .venv/bin/activate
+python main.py
+```
+
+毎回打つのが面倒な場合は `~/.zshrc` にエイリアスを追加すると便利です：
+
+```bash
+alias kiro='cd /path/to/kiro && source .venv/bin/activate && python main.py'
+```
 
 ### Windows
 
@@ -52,14 +81,14 @@
 
 ## 起動・停止
 
-アプリを起動すると、画面右下（Windows）またはメニューバー右上（Mac）にアイコンが表示されます。
+アプリを起動すると、画面右下（Windows）にアイコンが表示されます。
 
 | アイコン | 状態 |
 |---------|------|
 | 🟢 緑の丸 | 監視中 |
 | ⚫ グレーの丸 | 停止中 |
 
-### アイコンを右クリック（Mac は左クリック）するとメニューが開きます
+### アイコンを右クリックするとメニューが開きます
 
 ```
 ● 監視中
@@ -120,7 +149,6 @@
 
 振り分けの記録は `move_log.csv` に自動保存されます。
 
-- Mac：`kiro.app` と同じフォルダ
 - Windows：`kiro.exe` と同じフォルダ
 
 Excel などで開いて確認できます。
@@ -147,7 +175,7 @@ Excel などで開いて確認できます。
 ## ファイル構成
 
 ```
-kiro.app / kiro.exe   アプリ本体
+kiro.exe              アプリ本体（Windows）
 projects.json         プロジェクト設定
 settings.json         監視フォルダ設定（自動生成）
 move_log.csv          操作ログ（自動生成）
@@ -159,7 +187,6 @@ move_log.csv          操作ログ（自動生成）
 
 **Q. アプリを起動してもアイコンが見当たらない**
 - Windows：画面右下のタスクバーにある `∧` をクリックすると隠れたアイコンが表示されます
-- Mac：メニューバー右上（時計の左あたり）を確認してください
 
 **Q. 起動時に「WindowsによってPCが保護されました」と毎回表示される**
 - 初回のみ表示されます。**詳細情報 → 実行** をクリックしてください。2回目以降は表示されません。
@@ -180,20 +207,17 @@ move_log.csv          操作ログ（自動生成）
 - `kiro.exe` のショートカットを作成し、以下のフォルダに入れてください：
   `C:\Users\ユーザー名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
 
-**Q. Mac 起動時に自動でアプリを立ち上げたい**
-- システム設定 → 一般 → ログイン項目 → `+` ボタンで `kiro.app` を追加してください
-
 ---
 
 ## ライセンス
 
-[MIT License](LICENSE) © 2025 schue production
+[MIT License](LICENSE) © 2025 [Schues/kiro](https://github.com/Schues/kiro)
 
 ---
 
 ## クレジット
 
-Created by schue production
+Created by [Schues/kiro](https://github.com/Schues/kiro)
 
 使用ライブラリ：
 - [watchdog](https://github.com/gorakhargosh/watchdog) — MIT License
